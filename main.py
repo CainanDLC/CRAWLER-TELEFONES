@@ -80,24 +80,24 @@ def salvar_telefones(telefones):
             print(error)
 
 
+if __name__ == "__main__":
+    resposta = buscar_automoveis(url)
+    
+    links = buscar_urls(parsing(resposta))
+    sites = anuncio_veiculo(links)
 
-resposta = buscar_automoveis(url)
- 
-links = buscar_urls(parsing(resposta))
-sites = anuncio_veiculo(links)
 
+    #Criando várias threads de uma vez, depois startando e dando join
+    THREADS = []
+    for t in range(7):
+        t = threading.Thread(target=buscar_telefones, args=(LINKS,))
+        THREADS.append(t)
 
-#Criando várias threads de uma vez, depois startando e dando join
-THREADS = []
-for t in range(7):
-    t = threading.Thread(target=buscar_telefones, args=(LINKS,))
-    THREADS.append(t)
+    for t in THREADS:
+        t.start()
 
-for t in THREADS:
-    t.start()
-
-for t in THREADS:
-    t.join()
+    for t in THREADS:
+        t.join()
 
 
 
